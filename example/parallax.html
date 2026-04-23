@@ -14,25 +14,50 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
 </head>
 <body>
+    <!-- Retro Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader-content">
+            <div id="loader-percentage" class="pixel-text">[ 0% ]</div>
+            <p class="loading-status">❤ LOADING LOVE ❤</p>
+            <div class="progress-bar-container">
+                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <div class="heart-indicator">❤</div>
+            </div>
+            <p class="dream-msg">Ayub is dreaming of you...</p>
+        </div>
+    </div>
+
     <!-- Main Parallax Background -->
-    <div id="parallax-container"></div>
-
-    <!-- Scrollable Space for Parallax -->
-    <div id="content-section"></div>
-
-    <!-- UI Overlay for Characters and Narrative -->
-    <div id="ui-layer">
-        <!-- Floating Speech Bubble -->
-        <div id="speech-bubble" class="hidden">...</div>
+    <div id="parallax-container">
+        <!-- Intro Bench (Inside parallax for z-index layering) -->
+        <div id="intro-bench-container" class="hidden">
+            <img src="../assets/bench.png" id="intro-bench" class="bench-image">
+        </div>
 
         <!-- Boy Character -->
         <div id="boy-container" class="character-container hidden">
-            <img src="../assets/boy_character/normalboy.png" id="boy-sprite" class="character-sprite">
+            <div id="exclamation-icon" class="hidden">!</div>
+            <img src="../assets/boy_character/boysittingonbench.png" id="boy-sprite" class="character-sprite">
         </div>
 
         <!-- Girl Character -->
         <div id="girl-container" class="character-container hidden">
             <img src="../assets/girl_character/simplegirl.png" id="girl-sprite" class="character-sprite">
+        </div>
+
+        <!-- Floating Speech Bubble -->
+        <div id="speech-bubble" class="hidden">...</div>
+    </div>
+    
+    <!-- Scrollable Space for Parallax -->
+    <div id="content-section"></div>
+
+    <!-- UI Overlay for Narrative Prompts -->
+    <div id="ui-layer">
+        <!-- Intro Scroll Prompt -->
+        <div id="intro-prompt" class="hidden">
+            <div class="scroll-arrow">↓</div>
+            <p class="pixel-text">SCROLL TO WALK</p>
         </div>
 
         <!-- Grand Finale Surprise Wrapper (Injected by JS) -->

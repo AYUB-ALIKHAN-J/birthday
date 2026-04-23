@@ -124,7 +124,7 @@ class SurpriseManager {
         this.taps = 0;
         this.isTriggered = false;
         this.revealDepth = 34500;
-        this.message = "You make my life beautiful. I love you so much, and I hope you have an amazingly bright future ahead! ❤️";
+        this.message = "To the girl who has my whole heart: Happy Birthday! Thank you for being my peace, my joy, and my best friend. I’m so lucky to walk through life with you. I love you more than words (or code!) can express.";
     }
 
     update(scrollY) {
@@ -229,27 +229,64 @@ class ParallaxSystem {
         this.currentPackIndex = 0;
         this.layers = [];
         this.scrollY = 0;
-        this.scrollY = window.scrollY;
+        this.isLocked = true; // Start locked for intro
+        this.isStarted = false;
+        
         this.container = document.getElementById('parallax-container');
-        this.selector = document.getElementById('bg-pack-select');
         this.transitionThreshold = 8000;
-        this.scrollTracker = 0;
-        this.isTransitioning = false;
-        this.imagesLoaded = 0;
         this.lastScrollY = window.scrollY;
 
-        // Narrative Timeline (Dialogue Triggers) - Compressed 5000px intervals
+        // Intro Scene Dialogue Sequence
+        // Narrative Timeline (Precise Scroll Points)
         this.dialogues = [
+            // SITTING POSE
             {
-                start: 0,
+                start: 10,
+                end: 500,
+                text: "Whoa! You're finally here!",
+                sprite: 'boysittingonbench.png',
+                girlSprite: 'simplegirl.png'
+            },
+            {
+                start: 500,
+                end: 1000,
+                text: "I was just resting on our bench... I almost thought I dreamed you up.",
+                sprite: 'boysittingonbench.png',
+                girlSprite: 'simplegirl.png'
+            },
+            {
+                start: 1000,
                 end: 1500,
-                text: "Hi! I’m Ayub… excited? 😊 I’ve saved some magical lights in this forest—they hold our most beautiful moments. Catch them as we scroll! ✨",
-                sprite: 'normalboy.png',
+                text: "Walk with me? <span class=\"pixel-arrow\">→</span>",
+                sprite: 'boysittingonbench.png',
+                girlSprite: 'simplegirl.png'
+            },
+            // WALKING POSE (Triggered in handleScroll too)
+            {
+                start: 1500,
+                end: 2000,
+                text: "I'm so glad you're here!",
+                sprite: 'boywalkright.png',
+                girlSprite: 'simplegirl.png'
+            },
+            {
+                start: 2000,
+                end: 2500,
+                text: "And I want to tell you something...",
+                sprite: 'boywalkright.png',
+                girlSprite: 'simplegirl.png'
+            },
+            // THE FIRST QUIZ (Now the Happy Boy trigger)
+            {
+                start: 2600,
+                end: 4100,
+                text: "Just keep scrolling! Ther is more to come ",
+                sprite: 'boywalkright.png',
                 girlSprite: 'elegentgirl.png'
             },
             {
-                start: 5000,
-                end: 6500,
+                start: 5100,
+                end: 6600,
                 isQuestion: true,
                 questionId: 'color',
                 text: "Before we move on, I have a few questions for you... First off, do you remember what my favorite color is?",
@@ -264,7 +301,7 @@ class ParallaxSystem {
             {
                 start: 10000,
                 end: 11500,
-                text: "Wow, we've come quite a far way in this forest already. It reminds me of all our long walks... remember?",
+                text: "Wow, we've come quite a far way in this forest already. It reminds me of all our long walks at Gandhipuram... remember?",
                 sprite: 'happyboy.png',
                 girlSprite: 'simplegirl.png'
             },
@@ -341,8 +378,47 @@ class ParallaxSystem {
         // Initialize Surprise System
         this.surprise = new SurpriseManager(this);
 
-        console.log('🎬 Initializing Parallax System...');
-        this.init();
+        this.runLoader();
+    }
+
+    async runLoader() {
+        const screen = document.getElementById('loading-screen');
+        const bar = screen.querySelector('.progress-fill');
+        const status = screen.querySelector('.loading-status');
+        const heart = screen.querySelector('.heart-indicator');
+        const percentageText = document.getElementById('loader-percentage');
+        
+        let progress = 0;
+        const totalDuration = 4000; // Slightly longer for the "love" feel
+        const startTime = Date.now();
+
+        const updateProgress = () => {
+            const elapsed = Date.now() - startTime;
+            progress = Math.min(100, Math.floor((elapsed / totalDuration) * 100));
+            
+            if (percentageText) percentageText.textContent = `[ ${progress}% ]`;
+            if (bar) bar.style.width = `${progress}%`;
+            if (heart) heart.style.left = `${progress}%`;
+
+            if (progress < 100) {
+                requestAnimationFrame(updateProgress);
+            } else {
+                status.innerHTML = "❤ LOVE READY ❤";
+                const dreamMsg = screen.querySelector('.dream-msg');
+                if (dreamMsg) dreamMsg.textContent = "Dreaming sequence starting...";
+                this.isLoaderComplete = true;
+                
+                // Immediately transition from loader
+                setTimeout(() => {
+                  screen.style.opacity = '0';
+                  setTimeout(() => screen.remove(), 1000);
+                  this.init();
+                  this.enterIntroState();
+                }, 500);
+            }
+        };
+
+        requestAnimationFrame(updateProgress);
     }
 
     initAudio() {
@@ -393,18 +469,65 @@ class ParallaxSystem {
         // Load initial background pack
         await this.loadBackgroundPack(this.packs[this.currentPackIndex]);
 
-        // Initial character state update
-        this.updateCharacter();
-
-        // Setup event listeners with better scroll handling
+        // Setup event listeners
         window.addEventListener('scroll', () => this.handleScroll(), { passive: true });
         window.addEventListener('resize', () => this.updateParallax());
+    }
 
-        // Ensure character (if any) is positioned correctly relative to layers
-        // If you have a character container, you might want to give it a z-index
-        // between specific layers (e.g., z-index 11)
+    enterIntroState() {
+        console.log("🎬 Entering Intro State...");
+        const boyContainer = document.getElementById('boy-container');
+        const exclamation = document.getElementById('exclamation-icon');
+        const bench = document.getElementById('intro-bench-container');
 
-        console.log('✅ Parallax system initialized. Start scrolling!');
+        if (boyContainer) {
+            boyContainer.classList.remove('hidden');
+            setTimeout(() => boyContainer.classList.add('active'), 100);
+        }
+        
+        if (exclamation) exclamation.classList.remove('hidden');
+        
+        if (bench) {
+            bench.classList.remove('hidden');
+            bench.style.display = 'block';
+            setTimeout(() => bench.style.opacity = '1', 100);
+        }
+    }
+
+    wakeUp() {
+        if (this.isWokenUp) return;
+        this.isWokenUp = true;
+        
+        // Hide exclamation if still there
+        const exclamation = document.getElementById('exclamation-icon');
+        if (exclamation) exclamation.classList.add('hidden');
+        
+        if (this.sounds.pop) this.sounds.pop.play();
+        this.createHearts();
+    }
+
+
+    startJourney() {
+        if (this.isStarted) return;
+        this.isStarted = true;
+        this.isLocked = false;
+        
+        const boyContainer = document.getElementById('boy-container');
+        const prompt = document.getElementById('intro-prompt');
+        const bench = document.getElementById('intro-bench');
+
+        // Sprite "Stands up"
+        boyContainer.classList.remove('sleeping');
+        prompt.style.opacity = '0';
+        
+        // Hide bench and prompt after they scroll away
+        setTimeout(() => {
+            bench.style.opacity = '0';
+            setTimeout(() => {
+                bench.classList.add('hidden');
+                prompt.classList.add('hidden');
+            }, 1000);
+        }, 500);
     }
 
     /**
@@ -483,7 +606,13 @@ class ParallaxSystem {
                 img.src = imagePath;
 
                 layerEl.style.backgroundImage = `url('${imagePath}')`;
-                layerEl.style.zIndex = layerData.number;
+                
+                // STACKING FIX: Shift layers >= 8 to make room for character at z-index 8
+                // This places character between layer 7 and layer 8
+                let actualZIndex = layerData.number;
+                if (actualZIndex >= 8) actualZIndex += 2; // Extra gap for safety
+                
+                layerEl.style.zIndex = actualZIndex;
 
                 this.container.appendChild(layerEl);
                 this.layers.push({
@@ -633,6 +762,47 @@ class ParallaxSystem {
     handleScroll() {
         const newScrollY = window.scrollY;
 
+        // Ensure system knows we've started
+        if (!this.isStarted) this.isStarted = true;
+
+        // --- NARRATIVE TRANSITIONS ---
+        
+        // 1. Walking transition (after bench) - At 1500px switch to walking
+        const boySprite = document.getElementById('boy-sprite');
+        const exclamation = document.getElementById('exclamation-icon');
+        
+        if (newScrollY >= 1500) {
+            if (!this.isWalkingFromBench || !this.isWokenUp) {
+               this.isWalkingFromBench = true;
+               this.isWokenUp = true; // "Woken up" now means walking/alert
+               if (boySprite) boySprite.src = '../assets/boy_character/boywalkright.png';
+               if (exclamation) exclamation.classList.add('hidden');
+            }
+        } else if (newScrollY < 1500) {
+            // BACK TO SITTING (Below 1500)
+            if (this.isWalkingFromBench) {
+                this.isWalkingFromBench = false;
+                this.isWokenUp = false;
+                if (boySprite) boySprite.src = '../assets/boy_character/boysittingonbench.png';
+                if (exclamation) exclamation.classList.remove('hidden');
+            }
+        }
+
+        // Hide bench smoothly as we scroll
+        const bench = document.getElementById('intro-bench-container');
+        if (bench) {
+            const benchOpacity = Math.max(0, 1 - (newScrollY / 1200));
+            bench.style.opacity = benchOpacity;
+            
+            // Avoid abrupt display:none by using a higher threshold
+            if (newScrollY > 1500) {
+                bench.classList.add('hidden');
+            } else {
+                bench.classList.remove('hidden');
+                bench.style.display = 'block';
+            }
+        }
+
         // --- MANDATORY SCROLL LOCK & SNAP LOGIC ---
         if (this.isLocked && this.activeQuestion) {
             // If they try to scroll away from a locked question, force them back
@@ -645,7 +815,6 @@ class ParallaxSystem {
             }
         }
 
-        this.lastScrollY = newScrollY;
         this.scrollY = newScrollY;
 
         // Update status display
@@ -670,8 +839,11 @@ class ParallaxSystem {
         // Reset to start if we cross the limit for infinite feel
         if (this.scrollY >= totalCycleHeight) {
             window.scrollTo(0, 10); // Jump back to start
+            this.lastScrollY = 10;
             return;
         }
+
+        this.lastScrollY = newScrollY;
 
         // Calculate direct index based on scroll position
         // This ensures scrolling up returns to the previous background
@@ -745,6 +917,21 @@ class ParallaxSystem {
             this.toggleCharacter(boyContainer, true);
             this.toggleCharacter(girlContainer, true);
             this.toggleCharacter(speechBubble, true);
+        } else if (this.isWokenUp || this.scrollY < 4000) {
+            // Keep walking/visible state after waking up or during intro
+            this.toggleCharacter(boyContainer, true);
+            this.toggleCharacter(girlContainer, false);
+            this.toggleCharacter(speechBubble, false);
+
+            // Simple walking animation toggle based on movement
+            const isMoving = Math.abs(this.scrollY - this.lastScrollY) > 0.5;
+            if (isMoving || this.scrollY > 1500) {
+                // If in transition zones or moving, stay in walking pose
+                boySprite.src = '../assets/boy_character/boywalkright.png';
+            } else {
+                // Only sit if at the very start and stopped
+                boySprite.src = '../assets/boy_character/boysittingonbench.png';
+            }
         } else {
             // Hide characters and bubble
             this.toggleCharacter(boyContainer, false);
