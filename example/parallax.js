@@ -128,8 +128,24 @@ class SurpriseManager {
     }
 
     update(scrollY) {
-        if (Math.abs(scrollY - this.revealDepth) < 100 && !this.isTriggered) {
-            this.showEnvelope();
+        // Range check: Is the user near the surprise reveal depth?
+        const distance = Math.abs(scrollY - this.revealDepth);
+        const inRange = distance < 150;
+
+        if (inRange) {
+            // Only trigger if not already active
+            if (!this.isTriggered && !document.getElementById('surprise-wrapper')) {
+                this.showEnvelope();
+            }
+        } else if (distance > 500) {
+            // If they scroll far away, clean up and reset for another attempt
+            const wrapper = document.getElementById('surprise-wrapper');
+            if (wrapper) {
+                wrapper.remove();
+                this.parallax.isLocked = false;
+            }
+            // Reset trigger state so it can appear again when they scroll back down
+            this.isTriggered = false;
         }
     }
 
