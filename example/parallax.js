@@ -22,8 +22,7 @@ class MagicManager {
     }
 
     update(scrollY) {
-        // Spawn ambient whispers periodically
-        if (Math.random() < 0.005) this.spawnWhisper();
+        // ambient whispering removed per user request to use narrative bubbles instead
 
         // Spawn interactive magical lights at specific depths
         this.lightSpawns.forEach(depth => {
@@ -123,7 +122,7 @@ class SurpriseManager {
         this.parallax = parallax;
         this.taps = 0;
         this.isTriggered = false;
-        this.revealDepth = 34500;
+        this.revealDepth = 41500;
         this.message = "To the girl who has my whole heart: Happy Birthday! Thank you for being my peace, my joy, and my best friend. I’m so lucky to walk through life with you. I love you more than words (or code!) can express.";
     }
 
@@ -266,14 +265,14 @@ class ParallaxSystem {
             {
                 start: 500,
                 end: 1000,
-                text: "I was just resting on our bench... I almost thought I dreamed you up.",
+                text: "I was just resting on our bench... I almost thought I dreamed about you .",
                 sprite: 'boysittingonbench.png',
                 girlSprite: 'simplegirl.png'
             },
             {
                 start: 1000,
                 end: 1500,
-                text: "Walk with me? <span class=\"pixel-arrow\">→</span>",
+                text: "you look beautiful as always , come on walk with me ",
                 sprite: 'boysittingonbench.png',
                 girlSprite: 'simplegirl.png'
             },
@@ -296,7 +295,7 @@ class ParallaxSystem {
             {
                 start: 2600,
                 end: 4100,
-                text: "Just keep scrolling! Ther is more to come ",
+                text: "Just keep walking! Ther is more to come ",
                 sprite: 'boywalkright.png',
                 girlSprite: 'elegentgirl.png'
             },
@@ -305,7 +304,7 @@ class ParallaxSystem {
                 end: 6600,
                 isQuestion: true,
                 questionId: 'color',
-                text: "Before we move on, I have a few questions for you... First off, do you remember what my favorite color is?",
+                text: "wait ... Before we move on, I have a few questions for you... First off, do you remember what my favorite color is?",
                 options: [
                     { text: "Blue 💙", reaction: "Yesss! You know me so well! 💙", emotion: 'happy', girlEmotion: 'happy' },
                     { text: "Pink? 🌸", reaction: "Pink ah?? I’m not that cute okay! 😂", emotion: 'shocked', girlEmotion: 'surprised' },
@@ -315,20 +314,27 @@ class ParallaxSystem {
                 girlSprite: 'cutedressgirl.png'
             },
             {
+                start: 7500,
+                end: 9000,
+                text: "Walk with me?  We have so much more to see in this magical forest!",
+                sprite: 'boywalkright.png',
+                girlSprite: 'simplegirl.png'
+            },
+            {
                 start: 10000,
                 end: 11500,
-                text: "Wow, we've come quite a far way in this forest already. It reminds me of all our long walks at Gandhipuram... remember?",
+                text: "Wow, we've come quite a far way in this forest already. It reminds me of all our long walks in the gandhi puram during our intern ... remember?",
                 sprite: 'happyboy.png',
                 girlSprite: 'simplegirl.png'
             },
             {
-                start: 15000,
-                end: 16500,
+                start: 12500,
+                end: 14000,
                 isQuestion: true,
                 questionId: 'whoami',
                 text: "Sometimes I wonder... what am I really to you? Be honest!",
                 options: [
-                    { text: "Boyfriend ❤️", reaction: "Only boyfriend ah? ❤️ I'm everything!", emotion: 'happy', girlEmotion: 'happy' },
+                    { text: "Boyfriend ❤️", reaction: "Only boyfriend ah? ❤️ I'm everything! just kidding i dont know what to ask just framing questions lol ", emotion: 'happy', girlEmotion: 'happy' },
                     { text: "Just a friend ", reaction: "Friend ah?? I’m hurt… but I'll win you over! 😜", emotion: 'shocked', girlEmotion: 'surprised' },
                     { text: "My headache ", reaction: "Still you love this headache, don't you? 😂", emotion: 'normal', girlEmotion: 'simple' }
                 ],
@@ -336,36 +342,71 @@ class ParallaxSystem {
                 girlSprite: 'favgirl.png'
             },
             {
-                start: 20000,
-                end: 21500,
-                isQuestion: true,
-                questionId: 'moment',
-                text: "Of all these days we've spent, what’s your absolute favorite moment?",
-                options: [
-                    { text: "The day we became lovers ❤️", reaction: "That day changed everything for me too! ❤️", emotion: 'happy', girlEmotion: 'happy' },
-                    { text: "The day you rejected me ", reaction: "Why that day?? I was so sad! 😭", emotion: 'shocked', girlEmotion: 'surprised' },
-                    { text: "The day we didn’t talk ", reaction: "Worst day ever... let's never do that again.", emotion: 'angry', girlEmotion: 'simple' }
-                ],
-                sprite: 'normalboy.png',
-                girlSprite: 'elegentgirl.png'
-            },
+    start: 15000,
+    end: 16500,
+    text: "November 14th… I still remember that day. That college quiz… you were just sitting there quietly. I don’t know why, but I couldn’t stop noticing you.",
+    sprite: 'happyboy.png',
+    girlSprite: 'simplegirl.png'
+},
+{
+    start: 18000,
+    end: 19500,
+    text: "And that New Year’s call… That was unexpected. But once I heard your voice… it just felt easy. I didn’t want the call to end.",
+    sprite: 'happyboy.png',
+    girlSprite: 'simplegirl.png'
+},
+{
+    start: 21000,
+    end: 22500,
+    text: "That Halloween party in the IT block… you tied that band on my arm. I still have it, you know… I never threw it away.",
+    sprite: 'happyboy.png',
+    girlSprite: 'simplegirl.png'
+},
+{
+    start: 24000,
+    end: 25500,
+    text: "That evening on the stairs… I was overthinking everything. But when you said ‘I love you too’… everything just felt right for the first time.",
+    sprite: 'happyboy.png',
+    girlSprite: 'simplegirl.png'
+},
+{
+    start: 27000,
+    end: 28500,
+    text: "The first time I held your hand… I was so nervous. But at the same time… I don’t think I’ve ever been that happy.",
+    sprite: 'happyboy.png',
+    girlSprite: 'simplegirl.png'
+},
+{
+    start: 30000,
+    end: 32000,
+    text: "These night walks… they just feel peaceful. Like everything slows down. I kinda wish moments like this could just stay forever.",
+    sprite: 'happyboy.png',
+    girlSprite: 'simplegirl.png'
+},
+
             {
-                start: 25000,
-                end: 26500,
+                start: 32500,
+                end: 34000,
                 isQuestion: true,
                 questionId: 'why',
                 text: "Stop for a second... do you know why I brought you on this journey today?",
                 options: [
                     { text: "My birthday ", reaction: "Of course! ❤️ Everything is for you today.", emotion: 'happy', girlEmotion: 'happy' },
-                    { text: "To test me ", reaction: "Okay maybe a little bit... but mostly for love! 😂", emotion: 'normal', girlEmotion: 'simple' },
-                    { text: "You were bored ", reaction: "Excuse me?? I'm never bored with you! 😤", emotion: 'angry', girlEmotion: 'surprised' }
+                    { text: "For fun ", reaction: "Fun ah? Yes, but there's a bigger reason! 😉", emotion: 'normal', girlEmotion: 'simple' },
+                    { text: "I don't know ", reaction: "You'll find out in a second... keep walking! ❤️", emotion: 'happy', girlEmotion: 'happy' }
                 ],
                 sprite: 'normalboy.png',
-                girlSprite: 'cuteposegirl.png'
+                girlSprite: 'favgirl.png'
             },
-            {
-                start: 30000,
-                end: 32000,
+           {
+    start: 34500,
+    end: 37000,
+    text: "so it's time to give you something .",
+    sprite: 'shockedorexcitedboy.png',
+    girlSprite: 'simplegirl.png'
+},{
+     start: 37500,
+    end: 40000,
                 isQuestion: true,
                 questionId: 'love',
                 text: "Last question... do you think I love you a lot? Really?",
@@ -376,6 +417,26 @@ class ParallaxSystem {
                 ],
                 sprite: 'normalboy.png',
                 girlSprite: 'mostviewdpicgirl.png'
+            },
+            {
+                start: 40500,
+                end: 41500,
+                text: "I have one final thing to show you... wait for it... ❤️",
+                sprite: 'happyboy.png',
+                girlSprite: 'simplegirl.png'
+            },
+            {
+                start: 42500,
+                end: 45000,
+                isQuestion: true,
+                questionId: 'story',
+                text: "Can I tell the story about us what I remember?? ❤️",
+                options: [
+                    { text: "Yes! ", reaction: "Yay! Let's go! I have so much to tell you...", emotion: 'happy', girlEmotion: 'happy' },
+                    { text: "No ", reaction: "Pleaaaase? Don't be like that!", emotion: 'shocked', girlEmotion: 'surprised' }
+                ],
+                sprite: 'normalboy.png',
+                girlSprite: 'simplegirl.png'
             }
         ];
 
@@ -393,6 +454,9 @@ class ParallaxSystem {
 
         // Initialize Surprise System
         this.surprise = new SurpriseManager(this);
+
+        // Pre-initialize Credits
+        this.initStoryCredits();
 
         this.runLoader();
     }
@@ -553,17 +617,16 @@ class ParallaxSystem {
         try {
             console.log(`\n📦 Loading pack: ${packName}`);
 
-            const layerInfo = await this.detectLayersInPack(packName);
+            const packData = await this.detectLayersInPack(packName);
+            const layers = packData.layers;
 
-            if (layerInfo.length === 0) {
+            if (!layers || layers.length === 0) {
                 console.error(`❌ No layers found in pack: ${packName}`);
                 return;
             }
 
-            // Sort layers by number. With your new numbering:
-            // 11 (ground) will be at the end of the array
-            // 1 (background) will be at the beginning
-            layerInfo.sort((a, b) => a.number - b.number);
+            // Sort layers by number
+            layers.sort((a, b) => a.number - b.number);
 
             // Fade out current layers
             if (this.layers.length > 0) {
@@ -577,16 +640,16 @@ class ParallaxSystem {
             this.layers = [];
             this.imagesLoaded = 0;
 
-            console.log(`\n📥 Creating ${layerInfo.length} layers:`);
+            console.log(`\n📥 Creating ${layers.length} layers:`);
 
             // We want to calculate speed based on your new order:
             // Layer 1 (background) = Slower
             // Layer 11 (ground) = Faster
-            const minNum = Math.min(...layerInfo.map(l => l.number));
-            const maxNum = Math.max(...layerInfo.map(l => l.number));
+            const minNum = Math.min(...layers.map(l => l.number));
+            const maxNum = Math.max(...layers.map(l => l.number));
 
             // Create layer elements with initial opacity
-            layerInfo.forEach((layerData) => {
+            layers.forEach((layerData) => {
                 const layerEl = document.createElement('div');
                 layerEl.className = 'param-layer';
                 layerEl.dataset.layerNumber = layerData.number;
@@ -623,12 +686,31 @@ class ParallaxSystem {
 
                 layerEl.style.backgroundImage = `url('${imagePath}')`;
                 
-                // STACKING FIX: Shift layers >= 8 to make room for character at z-index 8
-                // This places character between layer 7 and layer 8
+                // DYNAMIC LAYERING: Each pack defines its own "Split Layer"
+                // Layers at or above splitLayer are moved to the front to make room for the character
                 let actualZIndex = layerData.number;
-                if (actualZIndex >= 8) actualZIndex += 2; // Extra gap for safety
+                const splitLayer = packData.splitLayer || 8;
+                
+                if (actualZIndex >= splitLayer) {
+                    actualZIndex += 2; // Create a gap
+                }
                 
                 layerEl.style.zIndex = actualZIndex;
+
+                // Update Character Stacking for this specific pack
+                const boyContainer = document.getElementById('boy-container');
+                const girlContainer = document.getElementById('girl-container');
+                const bench = document.getElementById('intro-bench-container');
+                
+                // Position characters at the defined splitLayer
+                if (boyContainer) boyContainer.style.zIndex = splitLayer;
+                if (girlContainer) girlContainer.style.zIndex = splitLayer;
+                if (bench) bench.style.zIndex = splitLayer - 1;
+
+                // Adjust character height if pack defines a specific bottom position
+                const charBottom = packData.charBottom || '120px';
+                if (boyContainer) boyContainer.style.bottom = charBottom;
+                if (girlContainer) girlContainer.style.bottom = charBottom;
 
                 this.container.appendChild(layerEl);
                 this.layers.push({
@@ -650,7 +732,7 @@ class ParallaxSystem {
             this.updateParallax();
             this.updateStatus();
 
-            console.log(`✅ Pack loaded: ${layerInfo.length} layers`);
+            console.log(`✅ Pack loaded: ${layers.length} layers`);
 
         } catch (error) {
             console.error('Error loading background pack:', error);
@@ -690,57 +772,69 @@ class ParallaxSystem {
      */
     async detectLayersInPack(packName) {
         // Map of known packs and their layers
-        // Layer number: 1 is FARTHEST (slow parallax), higher = CLOSER (faster parallax)
         const knownPacks = {
-            'parallax saturated background pack': [
-                // Layer 11 is CLOSEST (moves fast), Layer 1 is FARTHEST (moves slow)
-                { number: 11, filename: '01_ground.png' },
-                { number: 10, filename: '02_trees and bushes.png' },
-                { number: 9, filename: '03_distant_trees.png' },
-                { number: 8, filename: '04_bushes.png' },
-                { number: 7, filename: '05_hill1.png' },
-                { number: 6, filename: '06_hill2.png' },
-                { number: 5, filename: '07_huge_clouds.png' },
-                { number: 4, filename: '08_clouds.png' },
-                { number: 3, filename: '09_distant_clouds1.png' },
-                { number: 2, filename: '10_distant_clouds.png' },
-                { number: 1, filename: '11_background.png' },
-            ],
-            // Nature Landscapes (1.png is farthest/sky, N.png is closest/ground)
-            // Custom order for nature_1: 1, 2, 3, 5, 6, 7, 10, 8 (no 4.png or 9.png)
-            'nature_landscapes/nature_1': [
-                { number: 1, filename: '1.png' },
-                { number: 2, filename: '2.png' },
-                { number: 3, filename: '3.png' },
-                { number: 4, filename: '10.png' },
-                { number: 5, filename: '5.png' },
-                { number: 6, filename: '6.png' },
-                { number: 7, filename: '7.png' },
-                { number: 8, filename: '8.png' }
-            ],
-            'nature_landscapes/nature_2': [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })),
-            'nature_landscapes/nature_3': [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })),
-            'nature_landscapes/nature_4': [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })),
-            'nature_landscapes/nature_5': [1, 2, 3, 4, 5].map(n => ({ number: n, filename: `${n}.png` })),
+            'parallax saturated background pack': {
+                splitLayer: 10,
+                charBottom: '140px',
+                layers: [
+                    { number: 11, filename: '01_ground.png' },
+                    { number: 10, filename: '02_trees and bushes.png' },
+                    { number: 9, filename: '03_distant_trees.png' },
+                    { number: 8, filename: '04_bushes.png' },
+                    { number: 7, filename: '05_hill1.png' },
+                    { number: 6, filename: '06_hill2.png' },
+                    { number: 5, filename: '07_huge_clouds.png' },
+                    { number: 4, filename: '08_clouds.png' },
+                    { number: 3, filename: '09_distant_clouds1.png' },
+                    { number: 2, filename: '10_distant_clouds.png' },
+                    { number: 1, filename: '11_background.png' },
+                ]
+            },
+            'nature_landscapes/nature_1': {
+                splitLayer: 8,
+                layers: [
+                    { number: 1, filename: '1.png' },
+                    { number: 2, filename: '2.png' },
+                    { number: 3, filename: '3.png' },
+                    { number: 4, filename: '10.png' },
+                    { number: 5, filename: '5.png' },
+                    { number: 6, filename: '6.png' },
+                    { number: 7, filename: '7.png' },
+                    { number: 8, filename: '8.png' }
+                ]
+            },
+            'nature_landscapes/nature_2': { 
+                splitLayer: 4, 
+                charBottom: '120px',
+                layers: [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })) 
+            },
+            'nature_landscapes/nature_3': { 
+                splitLayer: 4, 
+                charBottom: '120px',
+                layers: [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })) 
+            },
+            'nature_landscapes/nature_4': { 
+                splitLayer: 4, 
+                charBottom: '120px', 
+                layers: [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })) 
+            },
+            'nature_landscapes/nature_5': { splitLayer: 5, layers: [1, 2, 3, 4, 5].map(n => ({ number: n, filename: `${n}.png` })) },
 
-            // New Free Backgrounds (1.png is farthest/sky, 4.png is closest/ground)
-            // Part 1
-            'New free backgrounds part1/background 1': [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })),
-            'New free backgrounds part1/background 2': [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })),
-            'New free backgrounds part1/background 3': [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })),
-            'New free backgrounds part1/background 4': [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })),
-            // Part 2
-            'New free backgrounds part2/background 2': [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })),
-            'New free backgrounds part2/background 4': [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })),
-            // Part 3
-            'New free backgrounds part3/background 1': [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })),
-            'New free backgrounds part3/background 2': [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })),
-            // Part 4
-            'New free backgrounds part4/background 1': [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })),
-            'New free backgrounds part4/background 4': [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })),
+            // New Free Backgrounds
+            'New free backgrounds part1/background 1': { splitLayer: 4, layers: [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })) },
+            'New free backgrounds part1/background 2': { splitLayer: 4, layers: [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })) },
+            'New free backgrounds part1/background 3': { splitLayer: 4, layers: [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })) },
+            'New free backgrounds part1/background 4': { splitLayer: 4, layers: [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })) },
+            'New free backgrounds part2/background 2': { splitLayer: 4, layers: [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })) },
+            'New free backgrounds part2/background 4': { splitLayer: 4, layers: [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })) },
+            'New free backgrounds part3/background 1': { splitLayer: 4, layers: [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })) },
+            'New free backgrounds part3/background 2': { splitLayer: 4, layers: [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })) },
+            'New free backgrounds part4/background 1': { splitLayer: 4, layers: [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })) },
+            'New free backgrounds part4/background 4': { splitLayer: 4, layers: [1, 2, 3, 4].map(n => ({ number: n, filename: `${n}.png` })) },
         };
 
-        return knownPacks[packName] || [];
+        const result = knownPacks[packName] || { layers: [], splitLayer: 8 };
+        return result;
     }
 
     /**
@@ -845,6 +939,9 @@ class ParallaxSystem {
 
         // Update Magic (Orbs & Whispers)
         this.magic.update(this.scrollY);
+
+        // Update Story Credits
+        this.updateStoryCredits(this.scrollY);
 
         // Update Surprise (Envelope & Card)
         this.surprise.update(this.scrollY);
@@ -1004,6 +1101,37 @@ class ParallaxSystem {
         const boySprite = document.getElementById('boy-sprite');
         const girlSprite = document.getElementById('girl-sprite');
 
+        // SPECIAL CASE: Story Rejection/Acceptance
+        if (question.questionId === 'story') {
+            if (option.text.includes('No') || option.text.includes('😜')) {
+                this.rejectionCount = (this.rejectionCount || 0) + 1;
+                
+                let reactionText;
+                if (this.rejectionCount === 1) {
+                    reactionText = "Pleaaaase? I spent so long remembering everything! ";
+                } else if (this.rejectionCount === 2) {
+                    reactionText = "Don't be mean! Just one more chance? pwease? ❤️";
+                } else {
+                    reactionText = "Okay, you know what? I'm telling it anyway! Come with me! 😂";
+                    setTimeout(() => this.triggerStoryAutoScroll(), 2000);
+                }
+                
+                speechBubble.innerHTML = `<span>${reactionText}</span>`;
+                
+                if (this.rejectionCount < 3) {
+                    setTimeout(() => {
+                        this.answeredQuestions.delete('story');
+                        speechBubble.dataset.currentDialogueId = ''; // Force re-render
+                        this.updateCharacter(); 
+                    }, 2000);
+                }
+                return;
+            } else {
+                speechBubble.innerHTML = `<span>${option.reaction}</span>`;
+                setTimeout(() => this.triggerStoryAutoScroll(), 1500);
+            }
+        }
+
         // Store choice for persistence
         this.userChoices[question.questionId] = option;
         this.answeredQuestions.add(question.questionId);
@@ -1029,7 +1157,6 @@ class ParallaxSystem {
 
             const msg = document.createElement('div');
             msg.className = 'continue-msg';
-            msg.style.cssText = 'font-size: 0.8em; color: #ff69b4; margin-top: 10px; animation: idleBounce 1s infinite;';
             msg.textContent = '(Scroll to continue your journey...)';
             speechBubble.appendChild(msg);
         }, 1500);
@@ -1082,6 +1209,173 @@ class ParallaxSystem {
             // Apply background-position for infinite tiling
             layer.element.style.backgroundPositionX = `${xOffset}px`;
         });
+    }
+
+    triggerStoryAutoScroll() {
+        console.log('🚀 Starting Final Cinematic Scroll to 56000...');
+        const targetScroll = 56000;
+        const duration = 4000; // Fast zoom
+        const startScroll = window.scrollY;
+        const startTime = performance.now();
+
+        const animateScroll = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Ease-in-out quintic for a cinematic feel
+            const ease = progress < 0.5 
+                ? 16 * progress * progress * progress * progress * progress 
+                : 1 - Math.pow(-2 * progress + 2, 5) / 2;
+
+            window.scrollTo(0, startScroll + (targetScroll - startScroll) * ease);
+
+            if (progress < 1) {
+                requestAnimationFrame(animateScroll);
+            } else {
+                this.isLocked = false;
+                
+                // Hide characters for the credits
+                this.toggleCharacter(document.getElementById('boy-container'), false);
+                this.toggleCharacter(document.getElementById('girl-container'), false);
+                
+                // Hide speech bubble
+                const bubble = document.getElementById('speech-bubble');
+                if (bubble) bubble.classList.add('hidden');
+
+                this.initStoryCredits();
+            }
+        };
+
+        this.isLocked = true; 
+        requestAnimationFrame(animateScroll);
+    }
+
+    initStoryCredits() {
+        const credits = document.getElementById('story-credits');
+        if (!credits) return;
+
+        credits.innerHTML = `
+            <div class="credits-wrapper">
+                <h1 class="credits-main-title">Happy Birthday, <br>Devaranjanaa</h1>
+                
+                <div class="credits-line">I’ve been sitting here thinking about everything we’ve been through. It’s been 1.5 years, but looking back, it honestly feels like a lifetime of memories packed into that time.</div>
+                
+                <div class="credits-line spacer"></div>
+                <h2 class="credits-section-title">The Beginning</h2>
+                <div class="credits-line">I still remember the first time I saw you at that college quiz in our first year. It was November 14th, and Vivek was running the show.</div>
+                <div class="credits-line">You were so quiet and didn’t say much, but I just thought you were the cutest person in the room.</div>
+                <div class="credits-line">I was honestly a bit starstruck—I had no clue what to say to you, so I just admired you from a distance for that whole first semester.</div>
+                
+                <div class="credits-line spacer"></div>
+                <h2 class="credits-section-title">The Shift</h2>
+                <div class="credits-line">Everything changed second semester when we finally connected on social media. I felt like I finally had a chance...</div>
+                <div class="credits-line">Then came that New Year’s phone call. I can’t even remember if it was you or your friend who called, but I just remember how happy I was to hear your voice.</div>
+                <div class="credits-line">After that, we started talking about notes and studies, and for the first time, I felt totally comfortable just talking to a girl.</div>
+                <div class="credits-line">That was the moment I realized I wasn’t just interested—I was really falling for you.</div>
+                
+                <div class="credits-line spacer"></div>
+                <h2 class="credits-section-title">The Moments I Keep</h2>
+                <div class="credits-line">I was so terrified of losing you as a friend that I kept my feelings to myself for a long time.</div>
+                <div class="credits-line">I still have that band you tied on my arm at the IT block Halloween party. I’ve kept it all this time because that evening meant the world to me.</div>
+                <div class="credits-line">Even back then, I’d get so jealous when you talked to other guys, even though I tried my absolute best to play it cool.</div>
+                
+                <div class="credits-line spacer"></div>
+                <h2 class="credits-section-title">The Risk at "High For This"</h2>
+                <div class="credits-line">Proposing to you at the High For This cafe was one of the hardest things I’ve ever done.</div>
+                <div class="credits-line">Deep down, I already knew you were going to say no, but I couldn't live with the "what ifs."</div>
+                <div class="credits-line">You brought us back together even after that month of silence, and my feelings only got stronger from there.</div>
+                
+                <div class="credits-line spacer"></div>
+                <h2 class="credits-section-title">The Long Five Months</h2>
+                <div class="credits-line">I let my jealousy get the best of me—that was my mistake—and when you told me not to talk to you, it felt like I’d lost a part of myself.</div>
+                <div class="credits-line">Those five months were the longest of my life. I wanted to talk to you every single day.</div>
+                <div class="credits-line">Then, August 3rd happened. That phone call where you asked, "How long are we going to be like this?" was the best thing that ever happened to me.</div>
+                
+                <div class="credits-line spacer"></div>
+                <h2 class="credits-section-title">The Stairs</h2>
+                <div class="credits-line">I’ll never forget that evening on the stairs of the block. When you finally said you loved me too, it felt like everything in the world finally clicked.</div>
+                <div class="credits-line">Holding your hand for the first time that day... I don’t think I’ve ever been happier in my life.</div>
+                
+                <div class="credits-line spacer"></div>
+                <h2 class="credits-section-title">Where We Are Now</h2>
+                <div class="credits-line">We’ve survived the stress of searching for internships and the whole transition into "adulting" together.</div>
+                <div class="credits-line">I heard somewhere that people gain weight when they’re in a happy relationship—and looking at me now, I guess that’s definitely true!</div>
+                
+                <div class="credits-line spacer"></div>
+                <div class="credits-line">Every moment feels special when I’m with you. Every night walk at Gandhipuram gives me so much peace.</div>
+                <div class="credits-line">I love you more than I did yesterday, and I really hope I get to celebrate every single one of your birthdays by your side.</div>
+                
+                <div class="credits-line spacer"></div>
+                <div class="credits-line finale">Happy Birthday, <br>Devaranjanaa.</div>
+                <div class="credits-line sub-finale">I love you, forever and always. ❤️</div>
+                <div class="credits-line signature">- Ayub</div>
+            </div>
+        `;
+    }
+
+    updateStoryCredits(scrollY) {
+        const credits = document.getElementById('story-credits');
+        if (!credits) return;
+
+        // START TRIGGER: Show when user reaches 55000
+        if (scrollY < 55000) {
+            credits.classList.add('hidden');
+            credits.style.opacity = '0';
+            return;
+        }
+
+        // FADE OUT: After the story is complete (70000)
+        if (scrollY > 70000) {
+            credits.classList.add('hidden');
+            return;
+        }
+
+        // UNHIDE
+        credits.classList.remove('hidden');
+
+        // RELIABILITY FIX: Ensure content is there
+        if (!credits.querySelector('.credits-wrapper')) {
+            console.log("📝 Initializing Credits Content...");
+            this.initStoryCredits();
+        }
+
+        // Relative scroll progress for the credits (55,000 onwards)
+        const relativeScroll = scrollY - 55000;
+        const wrapper = credits.querySelector('.credits-wrapper');
+        
+        if (wrapper) {
+            // OPTIMIZED SPEED: 0.38 factor ensures the long story completes by 68k
+            const moveUp = relativeScroll * 0.38; 
+            wrapper.style.transform = `translateY(${-moveUp}px)`;
+            
+            // Fade in naturally at the start
+            let opacity = Math.min(1, relativeScroll / 1000);
+            
+            // Fade out naturally at the end (starting at 68000)
+            if (scrollY > 68000) {
+                opacity = Math.max(0, 1 - (scrollY - 68000) / 1500);
+            }
+            
+            credits.style.opacity = opacity;
+        }
+
+        // Hide UI elements as credits take over
+        const bubble = document.getElementById('speech-bubble');
+        const boy = document.getElementById('boy-container');
+        const girl = document.getElementById('girl-container');
+
+        if (scrollY > 55000) {
+            const outroOpacity = Math.max(0, 1 - (scrollY - 55000) / 1000);
+            if (bubble) bubble.style.opacity = outroOpacity;
+            if (boy) boy.style.opacity = outroOpacity;
+            if (girl) girl.style.opacity = outroOpacity;
+            
+            if (outroOpacity === 0) {
+                if (bubble) bubble.classList.add('hidden');
+                if (boy) boy.classList.add('hidden');
+                if (girl) girl.classList.add('hidden');
+            }
+        }
     }
 }
 
