@@ -1,0 +1,42 @@
+const questions = [
+        {
+            text: "What’s my favorite color?",
+            options: [
+                { text: "Blue ", reaction: "Yesss  you know me so well ", emotion: "happy" },
+                { text: "Pink?? ", reaction: "Pink ah??  I’m not that cute okay", emotion: "angry" },
+                { text: "Whatever I like ", reaction: "Cheater answer ", emotion: "calm" }
+            ]
+        },
+        {
+            text: "What am I to you?",
+            options: [
+                { text: "Boyfriend ❤️", reaction: "Only boyfriend ah? ❤️", emotion: "happy" },
+                { text: "Just a friend ", reaction: "Friend ah??  I’m hurt…", emotion: "sad" },
+                { text: "My headache ", reaction: "Still you love this headache ", emotion: "calm" }
+            ]
+        },
+        {
+            text: "What’s your favorite moment?",
+            options: [
+                { text: "The day we became lovers ❤️", reaction: "That day changed everything ❤️", emotion: "happy" },
+                { text: "The day you rejected me ", reaction: "Why that day ", emotion: "sad" },
+                { text: "The day we didn’t talk ", reaction: "Worst day ever ", emotion: "angry" }
+            ]
+        },
+        {
+            text: "Why did I bring you here today?",
+            options: [
+                { text: "My birthday ", reaction: "Of course ❤️", emotion: "happy" },
+                { text: "To test me ", reaction: "Okay maybe a little", emotion: "calm" },
+                { text: "You were bored ", reaction: "Excuse me?? ", emotion: "angry" }
+            ]
+        },
+        {
+            text: "Do you think I love you a lot?",
+            options: [
+                { text: "Yes ❤️", reaction: "More than you can imagine ", emotion: "happy" },
+                { text: "Maybe ", reaction: "Maybe ah  I’ll prove it", emotion: "surprised" },
+                { text: "No ", reaction: "Illegal answer ", emotion: "angry" }
+            ]
+        }
+    ];

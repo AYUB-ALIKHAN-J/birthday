@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBD Deva</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@400;600;800&family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="parallax.css">
+    <!-- Audio Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+</head>
+<body>
+    <!-- Main Parallax Background -->
+    <div id="parallax-container"></div>
+
+    <!-- Scrollable Space for Parallax -->
+    <div id="content-section"></div>
+
+    <!-- UI Overlay for Characters and Narrative -->
+    <div id="ui-layer">
+        <!-- Floating Speech Bubble -->
+        <div id="speech-bubble" class="hidden">...</div>
+
+        <!-- Boy Character -->
+        <div id="boy-container" class="character-container hidden">
+            <img src="../assets/boy_character/normalboy.png" id="boy-sprite" class="character-sprite">
+        </div>
+
+        <!-- Girl Character -->
+        <div id="girl-container" class="character-container hidden">
+            <img src="../assets/girl_character/simplegirl.png" id="girl-sprite" class="character-sprite">
+        </div>
+
+        <!-- Grand Finale Surprise Wrapper (Injected by JS) -->
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div id="scroll-hint" style="position: fixed; bottom: 20px; right: 20px; opacity: 0.5; font-size: 12px; z-index: 1000;">
+        Scroll to start the journey ↓
+    </div>
+
+    <!-- JS Engine -->
+    <script src="parallax.js"></script>
+</body>
+</html>
