@@ -151,7 +151,7 @@ class GalleryManager {
         // realIndex is the actual file number (e.g. 12-26 for phase 2)
         // index is only used for depth math (normalized to 1-15 for phase 2)
         const fileIndex = realIndex !== null ? realIndex : index;
-        const imgPath = `../assets/photosgalery/${type}/${fileIndex}.jpeg`;
+        const imgPath = `./assets/photosgalery/${type}/${fileIndex}.jpeg`;
         const captions = {
             'she': ["Alagu kutti ❤️", "Pure heart", "my fav click of U", "My angel", "my angel", "Cutee ❤️", "Adorable", "Graceful", "My world", "Forever fav of mine", "My baby "],
             'us': [
@@ -432,14 +432,14 @@ class SurpriseManager {
         wrapper.id = 'surprise-wrapper';
         wrapper.innerHTML = `
             <div id="envelope-container" class="wiggle">
-                <img src="../assets/envelop.png" id="envelope-img">
+                <img src="./assets/envelop.png" id="envelope-img">
                 <div id="tap-hint" style="color: white; margin-top: 15px; font-family: 'Outfit';">Tap to open... (3)</div>
             </div>
             <div id="finale-card" class="hidden">
                 <div class="card-inner">
                     <div class="card-front">
                         <div class="birthday-title">Happy Birthday, <br>Devaranjanaa! </div>
-                        <img src="../assets/girl_character/cuteposegirl.png" class="card-photo">
+                        <img src="./assets/girl_character/cuteposegirl.png" class="card-photo">
                         <div class="birthday-subtitle">You bring light to my world!</div>
                         <button class="flip-btn">Flip Message ❤️</button>
                     </div>
@@ -782,35 +782,35 @@ class ParallaxSystem {
         // IMPORTANT: BGM files must use html5: true (they are too large for WebAudio decode)
         this.sounds = {
             intro: new Howl({
-                src: ['../assets/audio/bgm2.mp3'],
+                src: ['./assets/audio/bgm2.mp3'],
                 loop: true,
                 volume: 0,
                 html5: true
             }),
             credits: new Howl({
-                src: ['../assets/audio/bgm.mp3'],
+                src: ['./assets/audio/bgm.mp3'],
                 loop: true,
                 volume: 0,
                 html5: true
             }),
             finale: new Howl({
-                src: ['../assets/audio/bgm3.mp3'],
+                src: ['./assets/audio/bgm3.mp3'],
                 loop: true,
                 volume: 0,
                 html5: true
             }),
             click: new Howl({
-                src: ['../assets/audio/click.mp3'],
+                src: ['./assets/audio/click.mp3'],
                 volume: 0.5,
                 html5: false
             }),
             pop: new Howl({
-                src: ['../assets/audio/pop.mp3'],
+                src: ['./assets/audio/pop.mp3'],
                 volume: 0.4,
                 html5: false
             }),
             success: new Howl({
-                src: ['../assets/audio/success.mp3'],
+                src: ['./assets/audio/success.mp3'],
                 volume: 0.6,
                 html5: false
             })
@@ -1010,7 +1010,7 @@ class ParallaxSystem {
 
                 layerEl.dataset.speed = parallaxSpeed;
 
-                const imagePath = `../assets/${packName}/${layerData.filename}`;
+                const imagePath = `./assets/${packName}/${layerData.filename}`;
 
                 // Test image loading
                 const img = new Image();
@@ -1226,7 +1226,7 @@ class ParallaxSystem {
             if (!this.isWalkingFromBench || !this.isWokenUp) {
                this.isWalkingFromBench = true;
                this.isWokenUp = true; // "Woken up" now means walking/alert
-               if (boySprite) boySprite.src = '../assets/boy_character/boywalkright.png';
+               if (boySprite) boySprite.src = './assets/boy_character/boywalkright.png';
                if (exclamation) exclamation.classList.add('hidden');
             }
         } else if (newScrollY < 1500) {
@@ -1234,7 +1234,7 @@ class ParallaxSystem {
             if (this.isWalkingFromBench) {
                 this.isWalkingFromBench = false;
                 this.isWokenUp = false;
-                if (boySprite) boySprite.src = '../assets/boy_character/boysittingonbench.png';
+                if (boySprite) boySprite.src = './assets/boy_character/boysittingonbench.png';
                 if (exclamation) exclamation.classList.remove('hidden');
             }
         }
@@ -1390,10 +1390,10 @@ class ParallaxSystem {
             const isMoving = Math.abs(this.scrollY - this.lastScrollY) > 0.5;
             if (isMoving || this.scrollY > 1500) {
                 // If in transition zones or moving, stay in walking pose
-                boySprite.src = '../assets/boy_character/boywalkright.png';
+                boySprite.src = './assets/boy_character/boywalkright.png';
             } else {
                 // Only sit if at the very start and stopped
-                boySprite.src = '../assets/boy_character/boysittingonbench.png';
+                boySprite.src = './assets/boy_character/boysittingonbench.png';
             }
         } else {
             // Hide characters and bubble
@@ -1440,8 +1440,8 @@ class ParallaxSystem {
         } else {
             // Simple text dialogue
             bubble.innerHTML = `<span>${dialogue.text}</span>`;
-            boySprite.src = `../assets/boy_character/${dialogue.sprite}`;
-            girlSprite.src = `../assets/girl_character/${dialogue.girlSprite}`;
+            boySprite.src = `./assets/boy_character/${dialogue.sprite}`;
+            girlSprite.src = `./assets/girl_character/${dialogue.girlSprite}`;
         }
     }
 
@@ -1528,8 +1528,8 @@ class ParallaxSystem {
             'simple': 'simplegirl.png'
         };
 
-        boySprite.src = `../assets/boy_character/${boyMapping[boyEmotion] || 'normalboy.png'}`;
-        girlSprite.src = `../assets/girl_character/${girlMapping[girlEmotion] || 'favgirl.png'}`;
+        boySprite.src = `./assets/boy_character/${boyMapping[boyEmotion] || 'normalboy.png'}`;
+        girlSprite.src = `./assets/girl_character/${girlMapping[girlEmotion] || 'favgirl.png'}`;
     }
 
     toggleCharacter(container, show) {
