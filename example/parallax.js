@@ -1,4 +1,95 @@
 /**
+ * NoteManager: Handles the 3D Book / Page Flip letter at the end
+ */
+class NoteManager {
+    constructor(parallax) {
+        this.parallax = parallax;
+        this.container = document.getElementById('final-note');
+        this.triggerDepth = 176000; // Book appears
+        this.closingDepth = 184000; // Book closes and text appears
+        this.isRevealed = false;
+        this.isFinalMsgShown = false;
+        this.contentPart1 = `
+            <p><strong>A Promise to You</strong></p>
+            <p>To my Devaranjanaa,</p>
+            <p>I know I’ve hurt you at times. There were moments where I probably made you feel like giving up on me, and for that, I am so deeply sorry. None of it was ever intentional.</p>
+            <p>When I said harsh words, they came from a place of temporary anger, but they never reflected how I truly feel about you.</p>
+            <p>I'm sorry for the times I wasn't the boyfriend you deserved, but I promise you this: I will keep trying every single day to be the best boyfriend you’ve ever had.
+            I love everything about you except your absence</p>
+        `;
+        this.contentPart2 = `
+            <p>We’ve been through a lot, but I know we are strong. Together, we can get through any obstacle that comes our way.</p>
+            <p><strong>Remember these things:</strong></p>
+            <ul>
+                <li>You are going to achieve great things. Never lose your confidence.</li>
+                <li>This is our year. give it everything you've got. Don't get fumbled or distracted.</li>
+                <li>I am your biggest supporter. I will be right here for you.</li>
+            </ul>
+            <p>Happy Birthday, my love. Forever yours, Ayub ❤️</p>
+        `;
+    }
+
+    init() {
+        document.getElementById('note-part-1').innerHTML = this.contentPart1;
+        document.getElementById('note-part-2').innerHTML = this.contentPart2;
+        
+        // Add click listener to flip
+        const cover = this.container.querySelector('.cover-front');
+        if (cover) {
+            cover.onclick = () => {
+                this.container.classList.toggle('flipped');
+                if (this.parallax.sounds.pop) this.parallax.sounds.pop.play();
+            };
+        }
+    }
+
+    update(scrollY) {
+        // 1. Reveal Book (Between 176,000 and 184,000)
+        if (scrollY > this.triggerDepth && scrollY < this.closingDepth) {
+            if (!this.isRevealed) {
+                this.isRevealed = true;
+                this.container.classList.remove('hidden');
+                this.init();
+                setTimeout(() => this.container.classList.add('active'), 100);
+                
+                // Hide bridge text once we reach the book
+                const bridge = document.getElementById('bridge-text');
+                if (bridge) bridge.style.opacity = '0';
+            }
+            // Ensure we are in "book mode" and not "final msg mode"
+            this.container.classList.add('active');
+            this.container.classList.remove('show-final-msg');
+            this.isFinalMsgShown = false;
+        } 
+        // 2. Final Sentence Reveal (After 184,000)
+        else if (scrollY >= this.closingDepth) {
+            if (!this.isFinalMsgShown) {
+                this.isFinalMsgShown = true;
+                this.container.classList.remove('flipped'); // Trigger close animation
+                
+                // Switch classes to hide book and show text
+                setTimeout(() => {
+                    this.container.classList.add('show-final-msg');
+                    this.container.classList.remove('active'); // This hides the book itself
+                }, 800);
+            }
+        }
+        else {
+            if (this.isRevealed) {
+                this.isRevealed = false;
+                this.container.classList.remove('active', 'flipped', 'show-final-msg');
+                this.isFinalMsgShown = false;
+                setTimeout(() => {
+                    if (!this.isRevealed && !this.isFinalMsgShown) {
+                        this.container.classList.add('hidden');
+                    }
+                }, 1000);
+            }
+        }
+    }
+}
+
+/**
  * GalleryManager: Handles the Polaroid photo gallery at the end of the journey
  */
 class GalleryManager {
@@ -9,7 +100,7 @@ class GalleryManager {
         this.isInitialized = false;
 
         // Configuration
-        this.startDepth = 82000; // Shifted +5000px to accommodate envelope range increase
+        this.startDepth = 84000; // Shifted +2000 to match credit expansion
         this.depthInterval = 3500; 
         this.maxShe = 11;
         this.maxUs = 26;
@@ -94,9 +185,9 @@ class GalleryManager {
         const bridge = document.getElementById('bridge-text');
         if (!bridge) return;
 
-        // Bridge appears after story (74000) and before gallery (82000)
-        if (scrollY > 74000 && scrollY < 82500) {
-            const rel = scrollY - 74000;
+        // Bridge appears after story (76000 - Shifted) and before gallery (84000 - Shifted)
+        if (scrollY > 76000 && scrollY < 84500) {
+            const rel = scrollY - 76000;
             let opacity = 0;
             // Fade in over 1500px, hold, fade out at end
             if (rel < 1500) opacity = rel / 1500;
@@ -114,7 +205,7 @@ class GalleryManager {
         this.updateBridge(scrollY);
 
         // Only show gallery after the bridge
-        if (scrollY < 81500) {
+        if (scrollY < 83500) {
             if (this.container) {
                 this.container.classList.add('hidden');
                 this.container.style.display = 'none';
@@ -134,7 +225,6 @@ class GalleryManager {
                 if (!photo.active) {
                     photo.active = true;
                     photo.el.classList.add('visible');
-                    try { this.parallax.sounds.camera.play(); } catch(e){}
                 }
                 
                 const baseRot = parseFloat(photo.el.dataset.baseRotation);
@@ -644,6 +734,9 @@ class ParallaxSystem {
         // Initialize Photo Gallery
         this.gallery = new GalleryManager(this);
 
+        // Initialize Final Note (Book/Page Flip)
+        this.note = new NoteManager(this);
+
         // Pre-initialize Credits
         this.initStoryCredits();
 
@@ -692,40 +785,110 @@ class ParallaxSystem {
 
     initAudio() {
         console.log('🔊 Initializing Audio...');
+
+        // Music state
+        this.currentMusicKey = null;
+        this.bgmStarted = false;
+
+        // IMPORTANT: BGM files must use html5: true (they are too large for WebAudio decode)
         this.sounds = {
-            bgm: new Howl({
+            intro: new Howl({
+                src: ['../assets/audio/bgm2.mp3'],
+                loop: true,
+                volume: 0,
+                html5: true
+            }),
+            credits: new Howl({
                 src: ['../assets/audio/bgm.mp3'],
                 loop: true,
-                volume: 0.2,
-                html5: true,
-                onloaderror: (id, err) => console.warn('BGM load error:', err)
+                volume: 0,
+                html5: true
+            }),
+            finale: new Howl({
+                src: ['../assets/audio/bgm3.mp3'],
+                loop: true,
+                volume: 0,
+                html5: true
             }),
             click: new Howl({
                 src: ['../assets/audio/click.mp3'],
                 volume: 0.5,
-                html5: false // Use Web Audio for SFX
+                html5: false
             }),
             pop: new Howl({
                 src: ['../assets/audio/pop.mp3'],
                 volume: 0.4,
-                html5: false,
-                pos: [-0.5, 0, -0.5]
+                html5: false
             }),
             success: new Howl({
                 src: ['../assets/audio/success.mp3'],
                 volume: 0.6,
-                html5: false,
-                pos: [0.5, 0, -0.5]
+                html5: false
             })
         };
 
-        // Start BGM on first interaction (browser requirement)
-        window.addEventListener('click', () => {
-            if (!this.bgmStarted) {
-                this.sounds.bgm.play();
-                this.bgmStarted = true;
+        // Start music on FIRST click (browser autoplay policy requires user gesture)
+        const startMusic = () => {
+            console.log('👆 User interaction detected, starting audio context...');
+            if (Howler.ctx && Howler.ctx.state === 'suspended') {
+                Howler.ctx.resume();
             }
-        }, { once: true });
+
+            if (!this.bgmStarted) {
+                this.bgmStarted = true;
+                // Play intro music immediately
+                const track = this.sounds.intro;
+                console.log('🎵 Attempting to play intro music (bgm2.mp3)...');
+                track.play();
+                track.fade(0, 0.4, 2000);
+                this.currentMusicKey = 'intro';
+            }
+        };
+
+        window.addEventListener('click', startMusic, { once: true });
+        window.addEventListener('keydown', startMusic, { once: true });
+        // Touch start for mobile reliability
+        window.addEventListener('touchstart', startMusic, { once: true });
+    }
+
+    /**
+     * Cross-fade to a new musical theme based on scroll depth.
+     * Has a cooldown to prevent rapid back-and-forth scrolling from killing the music.
+     */
+    updateMusicSet(scrollY) {
+        if (!this.bgmStarted) return;
+
+        // Cooldown: don't switch tracks more than once every 4 seconds
+        const now = Date.now();
+        if (this._musicSwitchCooldown && (now - this._musicSwitchCooldown) < 4000) return;
+
+        let targetKey = 'intro';
+        if (scrollY >= 59000 && scrollY < 76000) targetKey = 'credits';
+        if (scrollY >= 76000) targetKey = 'finale';
+
+        if (this.currentMusicKey === targetKey) return; // Already on the right track
+
+        console.log(`🎶 Switching BGM: ${this.currentMusicKey} → ${targetKey}`);
+        this._musicSwitchCooldown = now; // Lock for 4 seconds
+
+        // Fade out current track then stop it cleanly
+        const oldKey = this.currentMusicKey;
+        const oldSound = oldKey ? this.sounds[oldKey] : null;
+        if (oldSound && oldSound.playing()) {
+            oldSound.fade(0.4, 0, 1500);
+            setTimeout(() => oldSound.stop(), 1600);
+        }
+
+        // Fade in new track from silence
+        const nextSound = this.sounds[targetKey];
+        if (nextSound) {
+            nextSound.stop();       // reset if previously stopped mid-fade
+            nextSound.volume(0);    // always start from silence
+            nextSound.play();
+            setTimeout(() => nextSound.fade(0, 0.4, 1500), 100); // tiny delay so play() registers
+        }
+
+        this.currentMusicKey = targetKey;
     }
 
     async init() {
@@ -1138,6 +1301,12 @@ class ParallaxSystem {
         // Update Photo Gallery
         this.gallery.update(this.scrollY);
 
+        // Update Final Note
+        this.note.update(this.scrollY);
+
+        // Update Dynamic Soundtrack
+        this.updateMusicSet(this.scrollY);
+
         // Infinite Scroll Loop Logic
         const totalCycleHeight = this.packs.length * this.transitionThreshold;
 
@@ -1456,14 +1625,14 @@ class ParallaxSystem {
                 <h2 class="credits-section-title">The Beginning</h2>
                 <div class="credits-line">I still remember the first time I saw you at that college quiz in our first year. It was November 14th, and Vivek was running the show.</div>
                 <div class="credits-line">You were so quiet and didn’t say much, but I just thought you were the cutest person in the room.</div>
-                <div class="credits-line">I was honestly a bit starstruck—I had no clue what to say to you, so I just admired you from a distance for that whole first semester.</div>
+                <div class="credits-line">I was honestly a bit starstruck I had no clue what to say to you, so I just admired you from a distance for that whole first semester.</div>
                 
                 <div class="credits-line spacer"></div>
                 <h2 class="credits-section-title">The Shift</h2>
                 <div class="credits-line">Everything changed second semester when we finally connected on social media. I felt like I finally had a chance...</div>
                 <div class="credits-line">Then came that New Year’s phone call. I can’t even remember if it was you or your friend who called, but I just remember how happy I was to hear your voice.</div>
                 <div class="credits-line">After that, we started talking about notes and studies, and for the first time, I felt totally comfortable just talking to a girl.</div>
-                <div class="credits-line">That was the moment I realized I wasn’t just interested—I was really falling for you.</div>
+                <div class="credits-line">That was the moment I realized I wasn’t just interested I was really falling for you.</div>
                 
                 <div class="credits-line spacer"></div>
                 <h2 class="credits-section-title">The Moments I Keep</h2>
@@ -1479,7 +1648,7 @@ class ParallaxSystem {
                 
                 <div class="credits-line spacer"></div>
                 <h2 class="credits-section-title">The Long Five Months</h2>
-                <div class="credits-line">I let my jealousy get the best of me—that was my mistake—and when you told me not to talk to you, it felt like I’d lost a part of myself.</div>
+                <div class="credits-line">I let my jealousy get the best of me  that was my mistake and when you told me not to talk to you, it felt like I’d lost a part of myself.</div>
                 <div class="credits-line">Those five months were the longest of my life. I wanted to talk to you every single day.</div>
                 <div class="credits-line">Then, August 3rd happened. That phone call where you asked, "How long are we going to be like this?" was the best thing that ever happened to me.</div>
                 
@@ -1491,10 +1660,12 @@ class ParallaxSystem {
                 <div class="credits-line spacer"></div>
                 <h2 class="credits-section-title">Where We Are Now</h2>
                 <div class="credits-line">We’ve survived the stress of searching for internships and the whole transition into "adulting" together.</div>
-                <div class="credits-line">I heard somewhere that people gain weight when they’re in a happy relationship—and looking at me now, I guess that’s definitely true!</div>
+                <div class="credits-line">I heard somewhere that people gain weight when they’re in a happy relationship and looking at me now, I guess that’s definitely true!</div>
                 
                 <div class="credits-line spacer"></div>
                 <div class="credits-line">Every moment feels special when I’m with you. Every night walk at Gandhipuram gives me so much peace.</div>
+                <div class="credits-line">After the inter we still together and strong, with few then and there fights but we never gave up on each other </div>
+                <div class="credits-line">The recent few weeks is rough but we got through it and we are stronger than ever</div>
                 <div class="credits-line">I love you more than I did yesterday, and I really hope I get to celebrate every single one of your birthdays by your side.</div>
                 
                 <div class="credits-line spacer"></div>
@@ -1516,8 +1687,8 @@ class ParallaxSystem {
             return;
         }
 
-        // FADE OUT: After the story is complete (74000)
-        if (scrollY > 74000) {
+        // FADE OUT: After the story is complete (76000 - Shifted +2000)
+        if (scrollY > 76000) {
             credits.classList.add('hidden');
             return;
         }
@@ -1543,9 +1714,9 @@ class ParallaxSystem {
             // Fade in naturally at the start
             let opacity = Math.min(1, relativeScroll / 1000);
             
-            // Fade out naturally at the end (starting at 72000)
-            if (scrollY > 72000) {
-                opacity = Math.max(0, 1 - (scrollY - 72000) / 1500);
+            // Fade out naturally at the end (starting at 74000 - Shifted +2000)
+            if (scrollY > 74000) {
+                opacity = Math.max(0, 1 - (scrollY - 74000) / 1500);
             }
             
             credits.style.opacity = opacity;

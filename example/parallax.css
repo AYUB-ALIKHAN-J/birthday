@@ -714,4 +714,173 @@ body {
 
 .hidden { display: none !important; }
 
-.hidden { display: none !important; }
+/* --- FINAL NOTE & PAGE FLIP --- */
+.note-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px);
+    z-index: 15000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease, visibility 1s;
+    pointer-events: auto;
+}
+
+.note-container.active, .note-container.show-final-msg {
+    opacity: 1;
+    visibility: visible;
+}
+
+#book-wrapper {
+    width: 800px;
+    height: 550px;
+    perspective: 2500px;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+/* Hide book when showing final msg */
+.note-container.show-final-msg #book-wrapper {
+    opacity: 0;
+    transform: scale(0.9);
+    pointer-events: none;
+}
+
+#page-flip {
+    position: relative;
+    width: 400px; 
+    height: 100%;
+    transform-style: preserve-3d;
+    margin-left: 400px;
+    transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.page-side {
+    position: absolute;
+    width: 400px;
+    height: 550px;
+    background: #fcf5e5; /* Premium paper */
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.05);
+    padding: 40px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.cover-front {
+    transform: translateZ(1px); /* Force layer ordering */
+    background: linear-gradient(135deg, #8b0000 0%, #5d0000 100%);
+    color: #ffd700;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px 20px 20px 5px;
+    border-left: 12px solid #4a0000;
+    z-index: 10;
+    cursor: pointer;
+}
+
+.note-cover-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: 4rem;
+    text-align: center;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.6);
+    letter-spacing: 2px;
+}
+
+.spine-shadow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 30px;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0,0,0,0.3), transparent);
+}
+
+.inside-left {
+    transform: rotateY(180deg) translateZ(1px);
+    border-radius: 5px 0 0 5px;
+    z-index: 9;
+}
+
+.inside-right {
+    border-radius: 0 5px 5px 0;
+    z-index: 1;
+    box-shadow: 10px 10px 30px rgba(0,0,0,0.2);
+}
+
+/* Flip leaf animation */
+#flipping-leaf {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 400px;
+    height: 550px;
+    transform-style: preserve-3d;
+    transform-origin: left center;
+    transition: transform 1.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+    z-index: 10;
+}
+
+.note-container.flipped #flipping-leaf {
+    transform: rotateY(-180deg);
+}
+
+.note-container.flipped #page-flip {
+    transform: translateX(-200px); /* Centers the open book (400px + 400px) */
+}
+
+.note-content-area {
+    font-family: 'Poor Story', cursive;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #2c1810;
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 15px;
+}
+
+/* Scrollbar for note */
+.note-content-area::-webkit-scrollbar {
+    width: 6px;
+}
+.note-content-area::-webkit-scrollbar-thumb {
+    background: rgba(139, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.closing-hint {
+    position: fixed;
+    bottom: 30px;
+    width: 90%;
+    text-align: center;
+    font-family: 'Poor Story', cursive; /* Using script font for better legibility of long sentence */
+    font-size: 2.2rem;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 105, 180, 0.9);
+    opacity: 0;
+    transition: opacity 1.5s ease 1s;
+    letter-spacing: 1px;
+}
+
+.note-container.show-final-msg .closing-hint {
+    opacity: 1;
+}
+
+@media (max-width: 900px) {
+    #book-wrapper {
+        width: 90vw;
+        height: 70vh;
+    }
+    .page-side, #r1, #r3, #page-flip {
+        width: 100%;
+    }
+    #page-flip { margin-left: 0; }
+    .note-container.flipped #page-flip { transform: none; }
+}
