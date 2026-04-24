@@ -438,7 +438,7 @@ class SurpriseManager {
             <div id="finale-card" class="hidden">
                 <div class="card-inner">
                     <div class="card-front">
-                        <div class="birthday-title">Happy Birthday, <br>Devaranjanaa! 🌸</div>
+                        <div class="birthday-title">Happy Birthday, <br>Devaranjanaa! </div>
                         <img src="../assets/girl_character/cuteposegirl.png" class="card-photo">
                         <div class="birthday-subtitle">You bring light to my world!</div>
                         <button class="flip-btn">Flip Message ❤️</button>
@@ -569,82 +569,71 @@ class ParallaxSystem {
             },
             // THE FIRST QUIZ (Now the Happy Boy trigger)
             {
-                start: 2600,
-                end: 4100,
+                start: 5100,
+                end: 6600,
                 text: "Just keep walking! Ther is more to come ",
                 sprite: 'boywalkright.png',
                 girlSprite: 'elegentgirl.png'
             },
             {
-                start: 5100,
-                end: 6600,
+                start: 2600,
+                end: 4100,
                 isQuestion: true,
                 questionId: 'color',
                 text: "wait ... Before we move on, I have a few questions for you... First off, do you remember what my favorite color is?",
                 options: [
-                    { text: "Blue 💙", reaction: "Yesss! You know me so well! 💙", emotion: 'happy', girlEmotion: 'happy' },
-                    { text: "Pink? 🌸", reaction: "Pink ah?? I’m not that cute okay! 😂", emotion: 'shocked', girlEmotion: 'surprised' },
-                    { text: "Whatever I like 😜", reaction: "Cheater answer!! but it's true lol", emotion: 'normal', girlEmotion: 'simple' }
+                    { text: "Blue ", reaction: "Yesss! You know me so well! ", emotion: 'happy', girlEmotion: 'happy' },
+                    { text: "Pink?", reaction: "Pink ah?? I’m not that cute okay! ", emotion: 'shocked', girlEmotion: 'surprised' },
+                    { text: "Whatever I like ", reaction: "Cheater answer!! but it's true lol", emotion: 'normal', girlEmotion: 'simple' }
                 ],
                 sprite: 'normalboy.png',
                 girlSprite: 'cutedressgirl.png'
             },
+            // {
+            //     start: 7500,
+            //     end: 9000,
+            //     text: "Walk with me?  We have so much more to see in this magical forest!",
+            //     sprite: 'boywalkright.png',
+            //     girlSprite: 'simplegirl.png'
+            // },
             {
-                start: 7500,
-                end: 9000,
-                text: "Walk with me?  We have so much more to see in this magical forest!",
-                sprite: 'boywalkright.png',
-                girlSprite: 'simplegirl.png'
-            },
-            {
-                start: 10000,
-                end: 11500,
+                start: 12500,
+                end: 14000,
                 text: "Wow, we've come quite a far way in this forest already. It reminds me of all our long walks in the gandhi puram during our intern ... remember?",
                 sprite: 'happyboy.png',
                 girlSprite: 'simplegirl.png'
             },
             {
-                start: 12500,
-                end: 14000,
+                start: 7500,
+                end: 9000,
                 isQuestion: true,
                 questionId: 'whoami',
                 text: "Sometimes I wonder... what am I really to you? Be honest!",
                 options: [
                     { text: "Boyfriend ❤️", reaction: "Only boyfriend ah? ❤️ I'm everything! just kidding i dont know what to ask just framing questions lol ", emotion: 'happy', girlEmotion: 'happy' },
-                    { text: "Just a friend ", reaction: "Friend ah?? I’m hurt… but I'll win you over! 😜", emotion: 'shocked', girlEmotion: 'surprised' },
-                    { text: "My headache ", reaction: "Still you love this headache, don't you? 😂", emotion: 'normal', girlEmotion: 'simple' }
+                    { text: "Just a friend ", reaction: "Friend ah?? I’m hurt… but I'll win you over! ", emotion: 'shocked', girlEmotion: 'surprised' },
+                    { text: "My headache ", reaction: "Still you love this headache, don't you? ", emotion: 'normal', girlEmotion: 'simple' }
                 ],
                 sprite: 'normalboy.png',
                 girlSprite: 'favgirl.png'
             },
             {
     start: 15000,
-    end: 16500,
+    end: 19500,
     text: "November 14th… I still remember that day. That college quiz… you were just sitting there quietly. I don’t know why, but I couldn’t stop noticing you.",
     sprite: 'happyboy.png',
     girlSprite: 'simplegirl.png'
 },
-{
-    start: 18000,
-    end: 19500,
-    text: "And that New Year’s call… That was unexpected. But once I heard your voice… it just felt easy. I didn’t want the call to end.",
-    sprite: 'happyboy.png',
-    girlSprite: 'simplegirl.png'
-},
+
 {
     start: 21000,
-    end: 22500,
+    end: 25500,
     text: "That Halloween party in the IT block… you tied that band on my arm. I still have it, you know… I never threw it away.",
     sprite: 'happyboy.png',
     girlSprite: 'simplegirl.png'
 },
-{
-    start: 24000,
-    end: 25500,
-    text: "That evening on the stairs… I was overthinking everything. But when you said ‘I love you too’… everything just felt right for the first time.",
-    sprite: 'happyboy.png',
-    girlSprite: 'simplegirl.png'
-},
+
+
 {
     start: 27000,
     end: 28500,
@@ -653,22 +642,22 @@ class ParallaxSystem {
     girlSprite: 'simplegirl.png'
 },
 {
-    start: 30000,
-    end: 32000,
+    start: 32500,
+    end: 34000,
     text: "These night walks… they just feel peaceful. Like everything slows down. I kinda wish moments like this could just stay forever.",
     sprite: 'happyboy.png',
     girlSprite: 'simplegirl.png'
 },
 
             {
-                start: 32500,
-                end: 34000,
+                start: 30000,
+                end: 32000,
                 isQuestion: true,
                 questionId: 'why',
                 text: "Stop for a second... do you know why I brought you on this journey today?",
                 options: [
                     { text: "My birthday ", reaction: "Of course! ❤️ Everything is for you today.", emotion: 'happy', girlEmotion: 'happy' },
-                    { text: "For fun ", reaction: "Fun ah? Yes, but there's a bigger reason! 😉", emotion: 'normal', girlEmotion: 'simple' },
+                    { text: "For fun ", reaction: "Fun ah? Yes, but there's a bigger reason! ", emotion: 'normal', girlEmotion: 'simple' },
                     { text: "I don't know ", reaction: "You'll find out in a second... keep walking! ❤️", emotion: 'happy', girlEmotion: 'happy' }
                 ],
                 sprite: 'normalboy.png',
@@ -688,8 +677,8 @@ class ParallaxSystem {
                 text: "Last question... do you think I love you a lot? Really?",
                 options: [
                     { text: "Yes ❤️", reaction: "More than you can imagine. Forever. ❤️", emotion: 'happy', girlEmotion: 'happy' },
-                    { text: "Maybe ", reaction: "Maybe ah? I’ll have to prove it then! 😜", emotion: 'normal', girlEmotion: 'simple' },
-                    { text: "No ", reaction: "Illegal answer! You know I do! 😂", emotion: 'shocked', girlEmotion: 'surprised' }
+                    { text: "Maybe ", reaction: "Maybe ah? I’ll have to prove it then! ", emotion: 'normal', girlEmotion: 'simple' },
+                    { text: "No ", reaction: "Illegal answer! You know I do! ", emotion: 'shocked', girlEmotion: 'surprised' }
                 ],
                 sprite: 'normalboy.png',
                 girlSprite: 'mostviewdpicgirl.png'
@@ -1623,13 +1612,13 @@ class ParallaxSystem {
                 
                 <div class="credits-line spacer"></div>
                 <h2 class="credits-section-title">The Beginning</h2>
-                <div class="credits-line">I still remember the first time I saw you at that college quiz in our first year. It was November 14th, and Vivek was running the show.</div>
+                <div class="credits-line">I still remember the first time I saw you at that college quiz in our first year we were a team . It was November 14th, and Vivek was running the quizz.</div>
                 <div class="credits-line">You were so quiet and didn’t say much, but I just thought you were the cutest person in the room.</div>
-                <div class="credits-line">I was honestly a bit starstruck I had no clue what to say to you, so I just admired you from a distance for that whole first semester.</div>
+                <div class="credits-line">I was honestly a bit starstruck I had no clue what to say to you at that time , so then  I just admired you from a distance for that whole first semester.</div>
                 
                 <div class="credits-line spacer"></div>
                 <h2 class="credits-section-title">The Shift</h2>
-                <div class="credits-line">Everything changed second semester when we finally connected on social media. I felt like I finally had a chance...</div>
+                <div class="credits-line">Everything changed second semester when we finally connected on social media. I felt like I finally had a chance... but I have no courage to communicate </div>
                 <div class="credits-line">Then came that New Year’s phone call. I can’t even remember if it was you or your friend who called, but I just remember how happy I was to hear your voice.</div>
                 <div class="credits-line">After that, we started talking about notes and studies, and for the first time, I felt totally comfortable just talking to a girl.</div>
                 <div class="credits-line">That was the moment I realized I wasn’t just interested I was really falling for you.</div>
@@ -1667,7 +1656,7 @@ class ParallaxSystem {
                 <div class="credits-line">After the inter we still together and strong, with few then and there fights but we never gave up on each other </div>
                 <div class="credits-line">The recent few weeks is rough but we got through it and we are stronger than ever</div>
                 <div class="credits-line">I love you more than I did yesterday, and I really hope I get to celebrate every single one of your birthdays by your side.</div>
-                
+                <div class="credits-line">Started as a TEAM we still a team </div>
                 <div class="credits-line spacer"></div>
                 <div class="credits-line finale">Happy Birthday, <br>Devaranjanaa.</div>
                 <div class="credits-line sub-finale">I love you, forever and always. ❤️</div>
