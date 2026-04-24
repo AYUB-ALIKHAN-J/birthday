@@ -1,4 +1,190 @@
 /**
+ * GalleryManager: Handles the Polaroid photo gallery at the end of the journey
+ */
+class GalleryManager {
+    constructor(parallax) {
+        this.parallax = parallax;
+        this.container = document.getElementById('photo-gallery');
+        this.photos = [];
+        this.isInitialized = false;
+
+        // Configuration
+        this.startDepth = 82000; // Shifted +5000px to accommodate envelope range increase
+        this.depthInterval = 3500; 
+        this.maxShe = 11;
+        this.maxUs = 26;
+    }
+
+    init() {
+        if (this.isInitialized) return;
+        this.isInitialized = true;
+        console.log("📸 Initializing Polaroid Gallery...");
+
+        for (let i = 1; i <= this.maxShe; i++) {
+            // Wave 1: Pairs (1-11)
+            this.createPhoto(i, 'she', 'left', 0);
+            this.createPhoto(i, 'us', 'right', 0);
+        }
+
+        // Wave 2: Remaining 'Us' (12-26)
+        // wave2Offset places the first solo photo one interval after the last pair
+        const wave2Offset = this.maxShe * this.depthInterval;
+        for (let i = 12; i <= this.maxUs; i++) {
+            const side = (i - 12) % 2 === 0 ? 'left' : 'right';
+            // Normalize: use (i - 11) so index 12 → 1, 13 → 2, etc.
+            // This prevents the huge gap from (index-1)*depthInterval stacking
+            this.createPhoto(i - 11, 'us', side, wave2Offset, i);
+        }
+    }
+
+    createPhoto(index, type, side, depthOffset = 0, realIndex = null) {
+        const item = document.createElement('div');
+        item.className = `polaroid-item ${side}`;
+        
+        // Lower positions (30vh to 60vh) so they are always in view
+        const horizontalPos = side === 'left' ? (8 + Math.random() * 10) : (52 + Math.random() * 10);
+        const topPos = 30 + Math.random() * 25; 
+        
+        item.style.left = `${horizontalPos}vw`;
+        item.style.top = `${topPos}vh`;
+        
+        const rotation = (Math.random() - 0.5) * 20;
+        item.dataset.baseRotation = rotation;
+        item.style.transform = `scale(0.5) rotate(${rotation}deg)`;
+
+        // Click to toggle color permanently
+        item.onclick = () => {
+            item.classList.toggle('enlarged');
+        };
+
+        // realIndex is the actual file number (e.g. 12-26 for phase 2)
+        // index is only used for depth math (normalized to 1-15 for phase 2)
+        const fileIndex = realIndex !== null ? realIndex : index;
+        const imgPath = `../assets/photosgalery/${type}/${fileIndex}.jpeg`;
+        const captions = {
+            'she': ["Alagu kutti ❤️", "Pure heart", "my fav click of U", "My angel", "my angel", "Cutee ❤️", "Adorable", "Graceful", "My world", "Forever fav of mine", "My baby "],
+            'us': [
+                "Together", "Our moments", "Perfect chaos ❤️", "The stairs OCT 17th", "1 yr anniversary", "Happy us Pondy trip", "Every high & low", "me and my moon ", "Love is us", "Hand in hand", "Soulmates",
+                "Wayanad", "Cariying My world", "My peace", "cute together", "adorable souls", "The best part of me", "Growing together", "Nice Memory ", "Treasured", "In your arms", "Always",
+                "Infinite love", "My safety", "Destiny", "Through it all", "Yours forever"
+            ]
+        };
+
+        const captionText = captions[type][fileIndex-1] || (type === 'she' ? "Devaranjanaa" : "Us ❤️");
+
+        item.innerHTML = `
+            <div class="polaroid">
+                <img src="${imgPath}" alt="Memory">
+                <div class="caption">${captionText}</div>
+            </div>
+        `;
+
+        this.container.appendChild(item);
+        
+        // Save metadata
+        const triggerDepth = this.startDepth + depthOffset + (index - 1) * this.depthInterval + (side === 'right' ? 800 : 0);
+        this.photos.push({
+            el: item,
+            depth: triggerDepth,
+            active: false
+        });
+    }
+
+    updateBridge(scrollY) {
+        const bridge = document.getElementById('bridge-text');
+        if (!bridge) return;
+
+        // Bridge appears after story (74000) and before gallery (82000)
+        if (scrollY > 74000 && scrollY < 82500) {
+            const rel = scrollY - 74000;
+            let opacity = 0;
+            // Fade in over 1500px, hold, fade out at end
+            if (rel < 1500) opacity = rel / 1500;
+            else if (rel > 5500) opacity = Math.max(0, 1 - (rel - 5500) / 1500);
+            else opacity = 1;
+            
+            bridge.style.opacity = opacity;
+        } else {
+            bridge.style.opacity = '0';
+        }
+    }
+
+    update(scrollY) {
+        // Handle the cinematic bridge text
+        this.updateBridge(scrollY);
+
+        // Only show gallery after the bridge
+        if (scrollY < 81500) {
+            if (this.container) {
+                this.container.classList.add('hidden');
+                this.container.style.display = 'none';
+            }
+            return;
+        }
+        
+        this.container.classList.remove('hidden');
+        this.container.style.display = 'block';
+        if (!this.isInitialized) this.init();
+
+        this.photos.forEach(photo => {
+            const diff = scrollY - photo.depth;
+            
+            // Wider visibility window (4000px) so they stay on screen longer
+            if (diff > 0 && diff < 4000) {
+                if (!photo.active) {
+                    photo.active = true;
+                    photo.el.classList.add('visible');
+                    try { this.parallax.sounds.camera.play(); } catch(e){}
+                }
+                
+                const baseRot = parseFloat(photo.el.dataset.baseRotation);
+                const sideDir = photo.el.classList.contains('left') ? -1 : 1;
+                
+                // Entrance spread
+                const spreadProgress = Math.min(1, diff / 1000);
+                const horizontalSpread = spreadProgress * 3 * sideDir; 
+                
+                // Upward Drift
+                const moveUp = diff * 0.1;
+                
+                // Fade out towards the end
+                let opacity = 1;
+                if (diff > 3200) {
+                    opacity = Math.max(0, 1 - (diff - 3200) / 800);
+                }
+
+                photo.el.style.opacity = opacity;
+                
+                // Apply transforms if NOT manually enlarged by click
+                if (!photo.el.classList.contains('enlarged')) {
+                    photo.el.style.transform = `
+                        translateX(${horizontalSpread}vw)
+                        translateY(${-moveUp}px)
+                        rotate(${baseRot}deg)
+                        scale(${0.8 + spreadProgress * 0.2})
+                    `;
+                } else {
+                    // Stay positioned but keep the enlarged scale
+                    photo.el.style.transform = `
+                        translateX(${horizontalSpread}vw)
+                        translateY(${-moveUp}px)
+                        rotate(0deg)
+                        scale(1.15)
+                    `;
+                }
+                
+            } else {
+                if (photo.active) {
+                    photo.active = false;
+                    photo.el.classList.remove('visible');
+                    photo.el.style.opacity = '0';
+                }
+            }
+        });
+    }
+}
+
+/**
  * MagicManager: Handles magical orbs and ethereal storytelling whispers
  */
 class MagicManager {
@@ -122,14 +308,14 @@ class SurpriseManager {
         this.parallax = parallax;
         this.taps = 0;
         this.isTriggered = false;
-        this.revealDepth = 41500;
+        this.revealDepth = 42000;
         this.message = "To the girl who has my whole heart: Happy Birthday! Thank you for being my peace, my joy, and my best friend. I’m so lucky to walk through life with you. I love you more than words (or code!) can express.";
     }
 
     update(scrollY) {
         // Range check: Is the user near the surprise reveal depth?
         const distance = Math.abs(scrollY - this.revealDepth);
-        const inRange = distance < 150;
+        const inRange = distance < 500; // Increased range to give more time to interact
 
         if (inRange) {
             // Only trigger if not already active
@@ -248,7 +434,7 @@ class ParallaxSystem {
         this.isStarted = false;
         
         this.container = document.getElementById('parallax-container');
-        this.transitionThreshold = 8000;
+        this.transitionThreshold = 14000; // Increased to ensure long journey (11 pairs + 15 solo) fits without resetting
         this.lastScrollY = window.scrollY;
 
         // Intro Scene Dialogue Sequence
@@ -426,8 +612,8 @@ class ParallaxSystem {
                 girlSprite: 'simplegirl.png'
             },
             {
-                start: 42500,
-                end: 45000,
+                start: 46000,
+                end: 49000,
                 isQuestion: true,
                 questionId: 'story',
                 text: "Can I tell the story about us what I remember?? ❤️",
@@ -454,6 +640,9 @@ class ParallaxSystem {
 
         // Initialize Surprise System
         this.surprise = new SurpriseManager(this);
+
+        // Initialize Photo Gallery
+        this.gallery = new GalleryManager(this);
 
         // Pre-initialize Credits
         this.initStoryCredits();
@@ -946,6 +1135,9 @@ class ParallaxSystem {
         // Update Surprise (Envelope & Card)
         this.surprise.update(this.scrollY);
 
+        // Update Photo Gallery
+        this.gallery.update(this.scrollY);
+
         // Infinite Scroll Loop Logic
         const totalCycleHeight = this.packs.length * this.transitionThreshold;
 
@@ -1212,8 +1404,8 @@ class ParallaxSystem {
     }
 
     triggerStoryAutoScroll() {
-        console.log('🚀 Starting Final Cinematic Scroll to 56000...');
-        const targetScroll = 56000;
+        console.log('🚀 Starting Final Cinematic Scroll to 60000...');
+        const targetScroll = 60000;
         const duration = 4000; // Fast zoom
         const startScroll = window.scrollY;
         const startTime = performance.now();
@@ -1317,15 +1509,15 @@ class ParallaxSystem {
         const credits = document.getElementById('story-credits');
         if (!credits) return;
 
-        // START TRIGGER: Show when user reaches 55000
-        if (scrollY < 55000) {
+        // START TRIGGER: Show when user reaches 59000 (Shifted for envelope room)
+        if (scrollY < 59000) {
             credits.classList.add('hidden');
             credits.style.opacity = '0';
             return;
         }
 
-        // FADE OUT: After the story is complete (70000)
-        if (scrollY > 70000) {
+        // FADE OUT: After the story is complete (74000)
+        if (scrollY > 74000) {
             credits.classList.add('hidden');
             return;
         }
@@ -1339,21 +1531,21 @@ class ParallaxSystem {
             this.initStoryCredits();
         }
 
-        // Relative scroll progress for the credits (55,000 onwards)
-        const relativeScroll = scrollY - 55000;
+        // Relative scroll progress for the credits (59,000 onwards)
+        const relativeScroll = scrollY - 59000;
         const wrapper = credits.querySelector('.credits-wrapper');
         
         if (wrapper) {
-            // OPTIMIZED SPEED: 0.38 factor ensures the long story completes by 68k
+            // OPTIMIZED SPEED
             const moveUp = relativeScroll * 0.38; 
             wrapper.style.transform = `translateY(${-moveUp}px)`;
             
             // Fade in naturally at the start
             let opacity = Math.min(1, relativeScroll / 1000);
             
-            // Fade out naturally at the end (starting at 68000)
-            if (scrollY > 68000) {
-                opacity = Math.max(0, 1 - (scrollY - 68000) / 1500);
+            // Fade out naturally at the end (starting at 72000)
+            if (scrollY > 72000) {
+                opacity = Math.max(0, 1 - (scrollY - 72000) / 1500);
             }
             
             credits.style.opacity = opacity;
@@ -1364,8 +1556,8 @@ class ParallaxSystem {
         const boy = document.getElementById('boy-container');
         const girl = document.getElementById('girl-container');
 
-        if (scrollY > 55000) {
-            const outroOpacity = Math.max(0, 1 - (scrollY - 55000) / 1000);
+        if (scrollY > 59000) {
+            const outroOpacity = Math.max(0, 1 - (scrollY - 59000) / 1000);
             if (bubble) bubble.style.opacity = outroOpacity;
             if (boy) boy.style.opacity = outroOpacity;
             if (girl) girl.style.opacity = outroOpacity;
