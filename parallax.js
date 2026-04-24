@@ -155,7 +155,7 @@ class GalleryManager {
         const captions = {
             'she': ["Alagu kutti ❤️", "Pure heart", "my fav click of U", "My angel", "my angel", "Cutee ❤️", "Adorable", "Graceful", "My world", "Forever fav of mine", "My baby "],
             'us': [
-                "Together", "Our moments", "Perfect chaos ❤️", "The stairs OCT 17th", "1 yr anniversary", "Happy us Pondy trip", "Every high & low", "me and my moon ", "Love is us", "Hand in hand", "Soulmates",
+                "Together", "Our moments", "Perfect chaos ❤️", "The stairs OCT 17th", "1 yr anniversary", "Happy us Pondy trip", "Every high & low", "Moon is beautiful ❤️ ", "Love is us", "Hand in hand", "Soulmates",
                 "Wayanad", "Cariying My world", "My peace", "cute together", "adorable souls", "The best part of me", "Growing together", "Nice Memory ", "Treasured", "In your arms", "Always",
                 "Infinite love", "My safety", "Destiny", "Through it all", "Yours forever"
             ]
